@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: app2
+  name: pod-app2
   namespace: app2
 spec:
   containers:
