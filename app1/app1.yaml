@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx
+  name: app1
   namespace: app1
 spec:
   containers:
