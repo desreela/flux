@@ -1,0 +1,25 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: deny-delete-namespace
+spec:
+  crd:
+    spec:
+      names:
+        kind: DenyDeleteNamespace
+      validation:
+        openAPIV3Schema:
+          properties:
+            namespaceName:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package kubernetes.deny_delete_namespace
+
+        deny[msg] {
+            input.request.kind.kind == "Namespace"
+            input.request.operation == "DELETE"
+            input.request.namespace == input.parameters.namespaceName
+            msg := sprintf("Deleting the '%s' namespace is not allowed.", [input.parameters.namespaceName])
+        }
